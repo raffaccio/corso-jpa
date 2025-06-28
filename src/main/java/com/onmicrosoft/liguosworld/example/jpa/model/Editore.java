@@ -1,5 +1,6 @@
 package com.onmicrosoft.liguosworld.example.jpa.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,17 +13,26 @@ public class Editore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // The @Id annotation indicates that this field is the primary key of the entity.
     private Long id;
+
+    @Column(name = "nome", nullable = false)
     private String nome;
+
+    // The indirizzo field represents the address of the publisher.
+    @Column(name = "indirizzo", nullable = false)
+    private String indirizzo;
 
     @OneToMany(mappedBy = "editore")
     private List<Libro> libri;
 
+    // Default constructor is required by JPA
     public Editore() {
     }
 
     public Editore(String nome, String indirizzo) {
         this.nome = nome;
+        this.indirizzo = indirizzo;
     }
 
     public Long getId() {
@@ -41,6 +51,14 @@ public class Editore {
         this.nome = nome;
     }
 
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
 
     public List<Libro> getLibri() {
         return libri;
@@ -57,6 +75,11 @@ public class Editore {
                 ", nome='" + nome + '\'' +
                 ", libri=" + libri +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

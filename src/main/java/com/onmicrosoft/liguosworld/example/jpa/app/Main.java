@@ -1,4 +1,4 @@
-package com.onmicrosoft.liguosworld.example.jpa.Manager;
+package com.onmicrosoft.liguosworld.example.jpa.app;
 
 // This file is part of the course on JPA (Java Persistence API) using Hibernate.
 // It is designed to be used with a MySQL database.
@@ -9,12 +9,10 @@ import com.onmicrosoft.liguosworld.example.jpa.model.Editore;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
-import java.util.List;
 
-public class JPQLQueryTest {
+public class Main {
     public static void main(String[] args) {
-        // Create an EntityManagerFactory for the persistence unit "DefaultPersistenceUnit"
+        // Create an EntityManagerFactory for the persistence unit "corso_jpa"
         EntityManagerFactory emf = 
         Persistence.createEntityManagerFactory("DefaultPersistenceUnit");
         
@@ -23,19 +21,6 @@ public class JPQLQueryTest {
         
         // Start a transaction
         em.getTransaction().begin();
-
-        TypedQuery<Libro> query = em.createQuery("SELECT l FROM Libro l", Libro.class);
-        // Execute the query and get the result list
-        List<Libro> libri = query.getResultList();
-        // Check if the result list is not empty
-
-        // Print the results
-        for (Libro libro : libri) {
-            System.out.println("Libro: " + libro.getTitolo() + ", ISBN: " + libro.getIsbn() +
-                               ", Autore: " + libro.getAutore().getNome() + " " + libro.getAutore().getCognome() +
-                               ", Editore: " + libro.getEditore().getNome());
-        }
-        
         
         // Create instances of Autore and Editore
         Autore autore = new Autore("Agatha", "Christie");
