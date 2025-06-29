@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:9.1
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=myDB
+    networks:
+      - my-network
+    hostname: docker-mysql-server
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  application:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+networks:
+  my-network:
+    driver: bridge
